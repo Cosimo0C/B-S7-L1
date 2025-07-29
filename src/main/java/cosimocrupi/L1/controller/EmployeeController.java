@@ -4,6 +4,8 @@ import cosimocrupi.L1.entities.Employee;
 import cosimocrupi.L1.exceptions.ValidationException;
 import cosimocrupi.L1.payloads.EmployeeDTO;
 import cosimocrupi.L1.payloads.EmployeeRespDTO;
+import cosimocrupi.L1.payloads.LoginDTO;
+import cosimocrupi.L1.payloads.LoginRespDTO;
 import cosimocrupi.L1.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -49,5 +51,10 @@ public class EmployeeController {
     @DeleteMapping("/{employeeId}")
     public void getByIdAndDelete(UUID employeeID){
         this.employeeService.findByIdAndDelete(employeeID);
+    }
+    @PostMapping("/login")
+    public LoginRespDTO login(@RequestBody LoginDTO  payload){
+        String accT = employeeService.checkCredentialsAndGenerateToken(payload);
+        return new LoginRespDTO(accT);
     }
 }
